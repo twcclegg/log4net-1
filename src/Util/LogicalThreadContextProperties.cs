@@ -37,8 +37,9 @@ namespace log4net.Util
 	/// The class is not synchronized as each thread has its own <see cref="PropertiesDictionary"/>.
 	/// </para>
 	/// <para>
-	/// This class stores its properties in a slot on the <see cref="CallContext"/> named
-	/// <c>log4net.Util.LogicalThreadContextProperties</c>.
+	/// This class stores its properties using <see cref="AsyncLocal&lt;T&gt;"/>in
+	/// .NET 4.6 and above, and otherwise in a slot on the <see cref="CallContext"/>
+	/// named <c>log4net.Util.LogicalThreadContextProperties</c>.
 	/// </para>
 	/// <para>
 	/// The <see cref="CallContext"/> requires a link time 
