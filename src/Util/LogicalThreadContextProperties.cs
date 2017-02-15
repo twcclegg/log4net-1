@@ -17,12 +17,14 @@
 //
 #endregion
 
-// .NET Compact Framework 1.0 has no support for System.Runtime.Remoting.Messaging.CallContext
-#if !NETCF
-
 using System;
+#if !NETSTANDARD1_3 && !NET_4_6
 using System.Runtime.Remoting.Messaging;
+#endif
 using System.Security;
+#if NETSTANDARD1_3 || NET_4_6
+using System.Threading;
+#endif
 
 namespace log4net.Util
 {
@@ -49,7 +51,11 @@ namespace log4net.Util
 	/// <author>Nicko Cadell</author>
 	public sealed class LogicalThreadContextProperties : ContextPropertiesBase
 	{
+#if NETSTANDARD1_3 || NET_4_6
+		private static readonly AsyncLocal<PropertiesDictionary> AsyncLocalDictionary = new AsyncLocal<PropertiesDictionary>();
+#else
 		private const string c_SlotName = "log4net.Util.LogicalThreadContextProperties";
+#endif
 		
 		/// <summary>
 		/// Flag used to disable this context if we don't have permission to access the CallContext.
@@ -216,7 +222,9 @@ namespace log4net.Util
 #endif
         private static PropertiesDictionary GetCallContextData()
 		{
-#if NET_2_0 || MONO_2_0 || MONO_3_5 || MONO_4_0
+#if NETSTANDARD1_3 || NET_4_6
+            return AsyncLocalDictionary.Value;
+#elif NET_2_0 || MONO_2_0 || MONO_3_5 || MONO_4_0
             return CallContext.LogicalGetData(c_SlotName) as PropertiesDictionary;
 #else
 			return CallContext.GetData(c_SlotName) as PropertiesDictionary;
@@ -237,7 +245,9 @@ namespace log4net.Util
 #endif
         private static void SetCallContextData(PropertiesDictionary properties)
 		{
-#if NET_2_0 || MONO_2_0 || MONO_3_5 || MONO_4_0
+#if NETSTANDARD1_3 || NET_4_6
+			AsyncLocalDictionary.Value = properties;
+#elif NET_2_0 || MONO_2_0 || MONO_3_5 || MONO_4_0
 			CallContext.LogicalSetData(c_SlotName, properties);
 #else
 			CallContext.SetData(c_SlotName, properties);
@@ -260,5 +270,3 @@ namespace log4net.Util
 	    #endregion Private Static Fields
     }
 }
-
-#endif
