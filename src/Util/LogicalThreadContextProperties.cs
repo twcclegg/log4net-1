@@ -21,8 +21,11 @@
 #if !NETCF
 
 using System;
+#if !NETSTANDARD1_3 && !NET_4_6
 using System.Runtime.Remoting.Messaging;
+#endif
 using System.Security;
+using System.Threading;
 
 namespace log4net.Util
 {
@@ -49,14 +52,18 @@ namespace log4net.Util
 	/// <author>Nicko Cadell</author>
 	public sealed class LogicalThreadContextProperties : ContextPropertiesBase
 	{
-		private const string c_SlotName = "log4net.Util.LogicalThreadContextProperties";
+#if NETSTANDARD1_3 || NET_4_6
+        private static readonly AsyncLocal<PropertiesDictionary> AsyncLocalDictionary = new AsyncLocal<PropertiesDictionary>();
+#else
+        private const string c_SlotName = "log4net.Util.LogicalThreadContextProperties";
+#endif
 		
 		/// <summary>
 		/// Flag used to disable this context if we don't have permission to access the CallContext.
 		/// </summary>
 		private bool m_disabled = false;
 		
-		#region Public Instance Constructors
+#region Public Instance Constructors
 
 		/// <summary>
 		/// Constructor
@@ -70,9 +77,9 @@ namespace log4net.Util
 		{
 		}
 
-		#endregion Public Instance Constructors
+#endregion Public Instance Constructors
 
-		#region Public Instance Properties
+#region Public Instance Properties
 
 		/// <summary>
 		/// Gets or sets the value of a property
@@ -109,9 +116,9 @@ namespace log4net.Util
 			}
 		}
 
-		#endregion Public Instance Properties
+#endregion Public Instance Properties
 
-		#region Public Instance Methods
+#region Public Instance Methods
 
 		/// <summary>
 		/// Remove a property
@@ -151,9 +158,9 @@ namespace log4net.Util
 			}
 		}
 
-		#endregion Public Instance Methods
+#endregion Public Instance Methods
 
-		#region Internal Instance Methods
+#region Internal Instance Methods
 
 		/// <summary>
 		/// Get the PropertiesDictionary stored in the LocalDataStoreSlot for this thread.
@@ -198,9 +205,9 @@ namespace log4net.Util
 			return null;
 		}
 
-		#endregion Internal Instance Methods
+#endregion Internal Instance Methods
 
-        #region Private Static Methods
+#region Private Static Methods
 
         /// <summary>
 		/// Gets the call context get data.
@@ -216,12 +223,14 @@ namespace log4net.Util
 #endif
         private static PropertiesDictionary GetCallContextData()
 		{
-#if NET_2_0 || MONO_2_0 || MONO_3_5 || MONO_4_0
+#if NETSTANDARD1_3 || NET_4_6
+            return AsyncLocalDictionary.Value;
+#elif NET_2_0 || MONO_2_0 || MONO_3_5 || MONO_4_0
             return CallContext.LogicalGetData(c_SlotName) as PropertiesDictionary;
 #else
 			return CallContext.GetData(c_SlotName) as PropertiesDictionary;
 #endif
-		}
+        }
 
 		/// <summary>
 		/// Sets the call context data.
@@ -237,16 +246,18 @@ namespace log4net.Util
 #endif
         private static void SetCallContextData(PropertiesDictionary properties)
 		{
-#if NET_2_0 || MONO_2_0 || MONO_3_5 || MONO_4_0
-			CallContext.LogicalSetData(c_SlotName, properties);
+#if NETSTANDARD1_3 || NET_4_6
+            AsyncLocalDictionary.Value = properties;
+#elif NET_2_0 || MONO_2_0 || MONO_3_5 || MONO_4_0
+            CallContext.LogicalSetData(c_SlotName, properties);
 #else
 			CallContext.SetData(c_SlotName, properties);
 #endif
         }
 
-        #endregion
+#endregion
 
-	    #region Private Static Fields
+#region Private Static Fields
 
 	    /// <summary>
 	    /// The fully qualified type of the LogicalThreadContextProperties class.
@@ -257,7 +268,7 @@ namespace log4net.Util
 	    /// </remarks>
 	    private readonly static Type declaringType = typeof(LogicalThreadContextProperties);
 
-	    #endregion Private Static Fields
+#endregion Private Static Fields
     }
 }
 

@@ -17,7 +17,7 @@
 //
 #endregion
 
-#if NET_4_5
+#if NET_4_5 || NETSTANDARD1_3
 using System;
 using System.Threading.Tasks;
 using System.Linq;
@@ -94,7 +94,7 @@ namespace log4net.Tests.Context
 			LogicalThreadContext.Properties[Utils.PROPERTY_KEY] = testValueForCurrentContext;
 
 			log1.Info("TestMessage");
-			Assert.AreEqual(testValueForCurrentContext, stringAppender.GetString(), "Test logical thread properties value set");
+		    Assert.AreEqual(testValueForCurrentContext, stringAppender.GetString(), "Test logical thread properties value set");
 			stringAppender.Reset();
 
 			var strings = await Task.WhenAll(Enumerable.Range(0, 10).Select(x => SomeWorkProperties(x.ToString())));

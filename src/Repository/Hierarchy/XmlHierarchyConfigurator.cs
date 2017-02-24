@@ -300,7 +300,7 @@ namespace log4net.Repository.Hierarchy
 			LogLog.Debug(declaringType, "Loading Appender [" + appenderName + "] type: [" + typeName + "]");
 			try 
 			{
-#if NETSTANDARD1_3
+#if NETSTANDARD1_3 || NET_4_6
 				IAppender appender = (IAppender)Activator.CreateInstance(SystemInfo.GetTypeFromString(this.GetType().GetTypeInfo().Assembly, typeName, true, true));
 #else
 				IAppender appender = (IAppender)Activator.CreateInstance(SystemInfo.GetTypeFromString(typeName, true, true));
@@ -490,7 +490,7 @@ namespace log4net.Repository.Hierarchy
 			{
 				try 
 				{
-#if NETSTANDARD1_3
+#if NETSTANDARD1_3 || NET_4_6
 					m_hierarchy.RendererMap.Put(SystemInfo.GetTypeFromString(this.GetType().GetTypeInfo().Assembly, renderedClassName, true, true), renderer);
 #else
 					m_hierarchy.RendererMap.Put(SystemInfo.GetTypeFromString(renderedClassName, true, true), renderer);
@@ -666,7 +666,7 @@ namespace log4net.Repository.Hierarchy
 						// Read the explicit subtype
 						try
 						{
-#if NETSTANDARD1_3
+#if NETSTANDARD1_3 || NET_4_6
 							Type subType = SystemInfo.GetTypeFromString(this.GetType().GetTypeInfo().Assembly, subTypeString, true, true);
 #else
 							Type subType = SystemInfo.GetTypeFromString(subTypeString, true, true);

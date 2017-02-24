@@ -73,7 +73,6 @@ namespace log4net.Plugin
 		private int m_version = 0;
 
 		#endregion Implementation (data)
-	
 		#region Static Wrappers
 
 		/// <summary>

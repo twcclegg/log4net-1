@@ -164,7 +164,7 @@ namespace log4net.Tests.Util
 		// are exposed for NETSTANDARD1_3.
 		private Type GetTypeFromString(string typeName, bool throwOnError, bool ignoreCase)
 		{
-#if NETSTANDARD1_3
+#if NETSTANDARD1_3 || NET_4_6
 			return SystemInfo.GetTypeFromString(GetType().GetTypeInfo().Assembly, typeName, throwOnError, ignoreCase);
 #else
 			return SystemInfo.GetTypeFromString(typeName, throwOnError, ignoreCase);

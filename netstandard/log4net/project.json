@@ -16,7 +16,6 @@
             "../../src/Appender/NetSendAppender.cs",
             "../../src/Appender/RemotingAppender.cs",
             "../../src/Appender/SmtpAppender.cs",
-            "../../src/LogicalThreadContext.cs",
             "../../src/Config/DOMConfigurator.cs",
             "../../src/Config/DOMConfiguratorAttribute.cs",
             "../../src/Config/Log4NetConfigurationSectionHandler.cs",
@@ -30,8 +29,6 @@
             "../../src/Plugin/RemoteLoggingServerPlugin.cs",
             "../../src/Util/PatternStringConverters/AppSettingPatternConverter.cs",
             "../../src/Util/PatternStringConverters/EnvironmentFolderPathPatternConverter.cs",
-            "../../src/Util/LogicalThreadContextProperties.cs",
-            "../../src/Util/LogicalThreadContextStacks.cs",
             "../../src/Util/NativeError.cs",
             "../../src/Util/WindowsSecurityContext.cs"
           ]
@@ -62,8 +59,8 @@
         "System.Runtime.InteropServices.RuntimeInformation": "4.0.0",
         "System.Runtime.Serialization.Formatters": "4.3.0",
         "System.Text.RegularExpressions": "4.1.0",
-        "System.Threading": "4.0.11",
-        "System.Threading.Thread": "4.0.0",
+        "System.Threading": "4.3.0",
+        "System.Threading.Thread": "4.3.0",
         "System.Threading.Timer": "4.0.1",
         "System.Xml.ReaderWriter": "4.0.11",
         "System.Xml.XmlDocument": "4.0.1"
