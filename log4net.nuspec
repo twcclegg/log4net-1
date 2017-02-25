@@ -43,6 +43,7 @@ log4net is designed with two distinct goals in mind: speed and flexibility</desc
       <group targetFramework="net35-full" />
       <group targetFramework="net40-full" />
       <group targetFramework="net45-full" />
+      <group targetFramework="net46-full" />
       <group targetFramework="net35-client" />
       <group targetFramework="net40-client" />
       <group targetFramework=".NETStandard1.3">
@@ -84,6 +85,8 @@ log4net is designed with two distinct goals in mind: speed and flexibility</desc
     <file src="bin\net\4.0\release\log4net.xml" target="lib\net40-full" />
     <file src="bin\net\4.5\release\log4net.dll" target="lib\net45-full" />
     <file src="bin\net\4.5\release\log4net.xml" target="lib\net45-full" />
+    <file src="bin\net\4.6\release\log4net.dll" target="lib\net46-full" />
+    <file src="bin\net\4.6\release\log4net.xml" target="lib\net46-full" />
     <file src="bin\net-cp\3.5\release\log4net.dll" target="lib\net35-client" />
     <file src="bin\net-cp\3.5\release\log4net.xml" target="lib\net35-client" />
     <file src="bin\net-cp\4.0\release\log4net.dll" target="lib\net40-client" />
