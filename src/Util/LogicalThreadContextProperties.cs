@@ -112,7 +112,7 @@ namespace log4net.Util
 				// need to be immutable to correctly flow through async/await
 				PropertiesDictionary immutableProps = new PropertiesDictionary(props);
 				immutableProps[key] = value;
-				SetCallContextData(immutableProps);
+				SetLogicalProperties(immutableProps);
 			}
 		}
 
@@ -136,7 +136,7 @@ namespace log4net.Util
 			{
 				PropertiesDictionary immutableProps = new PropertiesDictionary(dictionary);
 				immutableProps.Remove(key);
-				SetCallContextData(immutableProps);
+				SetLogicalProperties(immutableProps);
 			}
 		}
 
@@ -154,7 +154,7 @@ namespace log4net.Util
 			if (dictionary != null)
 			{
 				PropertiesDictionary immutableProps = new PropertiesDictionary();
-				SetCallContextData(immutableProps);
+				SetLogicalProperties(immutableProps);
 			}
 		}
 
@@ -180,11 +180,11 @@ namespace log4net.Util
 			{
 				try
 				{
-					PropertiesDictionary properties = GetCallContextData();
+					PropertiesDictionary properties = GetLogicalProperties();
 					if (properties == null && create)
 					{
 						properties = new PropertiesDictionary();
-						SetCallContextData(properties);
+						SetLogicalProperties(properties);
 					}
 					return properties;
 				}
@@ -221,7 +221,7 @@ namespace log4net.Util
 #if NET_4_0 || MONO_4_0
         [System.Security.SecuritySafeCritical]
 #endif
-        private static PropertiesDictionary GetCallContextData()
+        private static PropertiesDictionary GetLogicalProperties()
 		{
 #if NETSTANDARD1_3 || NET_4_6
             return AsyncLocalDictionary.Value;
@@ -244,7 +244,7 @@ namespace log4net.Util
 #if NET_4_0 || MONO_4_0
         [System.Security.SecuritySafeCritical]
 #endif
-        private static void SetCallContextData(PropertiesDictionary properties)
+        private static void SetLogicalProperties(PropertiesDictionary properties)
 		{
 #if NETSTANDARD1_3 || NET_4_6
 			AsyncLocalDictionary.Value = properties;
