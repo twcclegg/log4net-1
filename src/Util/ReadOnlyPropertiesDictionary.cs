@@ -217,7 +217,7 @@ namespace log4net.Util
 				object entryValue = entry.Value;
 
                 // If value is serializable then we add it to the list
-#if NETSTANDARD1_3
+#if NETSTANDARD1_3 || NET_4_6
                 bool isSerializable = entryValue.GetType().GetTypeInfo().IsSerializable;
 #else
                 bool isSerializable = entryValue.GetType().IsSerializable;

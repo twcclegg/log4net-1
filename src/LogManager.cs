@@ -254,7 +254,7 @@ namespace log4net
 		/// <returns>The logger with the name specified.</returns>
 		public static ILog GetLogger(Type type) 
 		{
-#if NETSTANDARD1_3
+#if NETSTANDARD1_3 || NET_4_6
 			return GetLogger(type.GetTypeInfo().Assembly, type.FullName);
 #else
 			return GetLogger(Assembly.GetCallingAssembly(), type.FullName);
